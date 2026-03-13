@@ -24,7 +24,7 @@ This project constructs and evaluates optimal portfolios across US equity sector
 Minimizes portfolio variance subject to long-only, fully invested constraints. Ignores expected returns entirely — relies only on the covariance matrix.
 
 **Result:** 13.53% annualized volatility | 7.71% return | Sharpe 0.26
-Allocates to XLP (67.7%), XLV (21.2%), XLU (11.2%) — purely defensive.
+Allocates to XLP (67.7%), XLV (21.2%), XLU (11.2%) – purely defensive.
 
 ### 2. Maximum-Return
 Maximizes expected return under long-only constraints, which collapses to a 100% allocation in the highest-mean asset (XLK).
@@ -57,68 +57,26 @@ Allocates XLK (85.6%), XLF (7.3%), XLE (5.5%), XLI (1.6%) — concentrated but n
 - **Diversification ≠ tail-risk immunity:** Risk-Parity has the lowest HHI (0.218) but the highest kurtosis (18.0), because correlations spike during stress events.
 - **Black-Litterman as practical middle ground:** Captures most of the upside from a strong sector view while maintaining partial diversification. Sharpe ratio of 0.49 vs. 0.52 for the fully concentrated portfolio — a small tradeoff for meaningfully better risk properties.
 
-## Project Structure
+## How to Run
 
-```
-sector-etf-portfolio-optimization/
-├── README.md
-├── requirements.txt
-├── data/
-│   └── (place CSV files here)
-├── src/
-│   ├── data_preparation.py
-│   ├── optimization.py
-│   ├── black_litterman.py
-│   ├── analysis.py
-│   └── utils.py
-├── notebooks/
-│   └── full_analysis.ipynb
-├── output/
-│   └── (generated charts saved here)
-└── main.py
-```
+1. Clone this repository
+2. Install dependencies: `pip install -r requirements.txt`
+3. Download daily price history CSVs for XLK, XLF, XLE, XLV, XLI, XLP, and XLU from any provider (e.g., Yahoo Finance) and place them in a `data/` folder
+4. Run: `python main.py`
 
-## Setup
+Charts are automatically saved to an `output/` folder.
 
-```bash
-git clone https://github.com/YOUR_USERNAME/sector-etf-portfolio-optimization.git
-cd sector-etf-portfolio-optimization
-pip install -r requirements.txt
-```
+## Methodology
 
-### Data
-Download daily price history CSVs for XLK, XLF, XLE, XLV, XLI, XLP, and XLU from any provider (e.g., Yahoo Finance, Nasdaq) and place them in the `data/` directory. Update file paths in `main.py` if needed.
+- **Returns:** Log returns used throughout for time-additivity
+- **Risk-free rate:** 4.25% annualized (1-year US Treasury bill yield, late 2025)
+- **Annualization:** 252 trading days; returns scaled linearly, volatility by √252
+- **Data cleaning:** Weekend/holiday removal, >50% daily move filter (4 rows removed)
+- **Optimizer:** scipy.optimize.minimize with SLSQP, multiple random starting points to avoid local minima
+- **Black-Litterman:** τ = 1/T, Ω from view portfolio variance, posterior via precision-weighted blending
 
-### Run
+## Visualizations Generated
 
-```bash
-python main.py
-```
-
-Or open `notebooks/full_analysis.ipynb` for the interactive walkthrough.
-
-## Requirements
-
-```
-pandas>=1.5
-numpy>=1.23
-matplotlib>=3.6
-seaborn>=0.12
-scipy>=1.9
-```
-
-## Methodology Notes
-
-- **Returns:** Log returns used throughout for time-additivity.
-- **Risk-free rate:** 4.25% annualized (approximate 1-year US Treasury bill yield, late 2025).
-- **Annualization:** 252 trading days. Returns scaled linearly, volatility by √252.
-- **Data cleaning:** Weekend/holiday removal, >50% daily move filter (4 rows removed).
-- **Optimizer:** `scipy.optimize.minimize` with SLSQP method, multiple random starting points to avoid local minima.
-- **Black-Litterman:** τ = 1/T, Ω derived from view portfolio variance, posterior computed via precision-weighted blending.
-
-## Visualizations
-
-The analysis generates:
 - Covariance and correlation heatmaps
 - Annualized return vs. volatility comparison
 - Portfolio weight comparisons across all five strategies
@@ -128,11 +86,11 @@ The analysis generates:
 - Cumulative return chart (2010–2026)
 - Sharpe ratio, volatility, and HHI concentration comparison
 
+## Built With
+
+Python, pandas, numpy, scipy, matplotlib, seaborn
+
 ## Author
 
 **Bhawini Singh**
 MS Quantitative Finance, Northeastern University (2026)
-
-## License
-
-MIT
