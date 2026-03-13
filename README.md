@@ -57,6 +57,8 @@ Allocates XLK (85.6%), XLF (7.3%), XLE (5.5%), XLI (1.6%) — concentrated but n
 - **Diversification ≠ tail-risk immunity:** Risk-Parity has the lowest HHI (0.218) but the highest kurtosis (18.0), because correlations spike during stress events.
 - **Black-Litterman as practical middle ground:** Captures most of the upside from a strong sector view while maintaining partial diversification. Sharpe ratio of 0.49 vs. 0.52 for the fully concentrated portfolio — a small tradeoff for meaningfully better risk properties.
 
+> **Full analysis write-up:** See [ANALYSIS.md](ANALYSIS.md) for the complete methodology, economic interpretation, and investment rationale behind each portfolio.
+
 ## How to Run
 
 1. Clone this repository
